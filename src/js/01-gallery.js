@@ -14,27 +14,10 @@ const imagesHTML = galleryItems.map(({ preview, original, description }) => {
 })
 gallery.insertAdjacentHTML('beforeend', imagesHTML.join(''))
 
-
-
-gallery.addEventListener('click', event => {
-	event.preventDefault()
-	if (event.target.tagName === 'IMG') {
-		const instance = basicLightbox.create(
-			`
-      <img src="${event.target.dataset.source}" alt="${event.target.alt}">`,
-			{
-				onClose: instance => {
-					gallery.removeEventListener('keydown', onEscapePress)
-				},
-			}
-		)
-
-		const onEscapePress = event => {
-			if (event.key === 'Escape') {
-				instance.close()
-			}
-		}
-		instance.show()
-		gallery.addEventListener('keydown', onEscapePress)
-	}
-})
+const lightbox = new SimpleLightbox('.gallery a', {
+	loop: true,
+	captionsData: 'alt',
+	captionDelay: 250,
+	docClose: true,
+	alertErrorMessage: 'Image not found, next image will be loaded'
+  });
